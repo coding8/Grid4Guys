@@ -1,0 +1,48 @@
+﻿@model Grid4Guys.Models.ProductGridModel
+@{
+    ViewBag.Title = "Paged";
+}
+
+<h2>Paged</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    <i>You are viewing page @Model.PageIndex  of @Model.TotalPageCount ...</i>
+</p>
+<table class="table">
+    <tr>
+        <th style="width: 35%">Product</th>
+        <th style="width: 25%">Category</th>
+        <th style="width: 25%">Qty/Unit</th>
+        <th style="width: 15%">Price</th>
+        <th style="width: 5%">Discontinued</th>
+    </tr>
+
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Categories.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Discontinued)
+            </td>
+        </tr>
+    }
+</table>
+<div class="pagination-container">
+    <ul class="pagination">
+        @Html.Partial("_Pager", Model)
+    </ul>
+</div>

@@ -1,0 +1,34 @@
+﻿@model Grid4Guys.Models.ProductGridModel
+@{
+    // 上一页
+    Html.RenderPartial("_PagerLink", Model, new ViewDataDictionary {
+        { "Text", "<<" },
+        { "PageIndex", Model.PageIndex - 1 },
+        { "Selected", false },
+        { "Inactive", Model.PageIndex == 1 }
+    });
+    // Create numeric links
+    var startPageIndex = Math.Max(1, Model.PageIndex - Model.NumericPageCount / 2);
+    var endPageIndex = Math.Min(Model.TotalPageCount, Model.PageIndex + Model.NumericPageCount / 2);
+    // Add in the numeric pages
+    for (var i = startPageIndex; i <= endPageIndex; i++)
+    {
+        Html.RenderPartial("_PagerLink", Model, new ViewDataDictionary {
+                { "Text", i },
+                { "PageIndex", i },
+                { "Selected", i == Model.PageIndex },
+                { "Inactive", false }
+            });
+    }
+    // 下一页
+    Html.RenderPartial("_PagerLink", Model, new ViewDataDictionary {
+        { "Text", " >>" },
+        { "PageIndex", Model.PageIndex + 1 },
+        { "Selected", false },
+        { "Inactive", Model.PageIndex == Model.TotalPageCount }
+    });
+    
+    //TODO:第一页、最后一页
+    //TODO:当前记录数和总记录数
+}
+<!--http://www.4guysfromrolla.com/articles/121510-1.aspx-->

@@ -1,0 +1,42 @@
+﻿@model Grid4Guys.Models.ProductGridModel
+@using Grid4Guys.Helper;
+@{
+    var razorWriter = ViewContext.Writer;
+    if ((bool)ViewData["Inactive"])
+    {
+        razorWriter.Write(string.Format("<li class=\"{0}\">{1}</li>", "disabled", ""));
+    }
+    else
+    {
+        var routeData = new RouteValueDictionary { { "page", ViewData["PageIndex"].ToString() }, { "pageSize", Model.PageSize } };
+        //一个 扩展，加入url中的参数
+        // Add querystring parameters to the route collection
+        routeData.AddQueryStringParameters();
+        var htmlAttributes = new Dictionary<string, object>();
+        if ((bool)ViewData["Selected"])
+        {
+            htmlAttributes.Add("class", "active");
+        }
+        else
+        {
+            htmlAttributes.Add("class", "pagerButton");
+        }
+        var linkMarkup = Html.ActionLink(
+        ViewData["Text"].ToString(),                                    // Link Text
+        Html.ViewContext.RouteData.Values["action"].ToString(),         // Action
+        Html.ViewContext.RouteData.Values["controller"].ToString(),     // Controller
+        routeData,                                                      // Route data
+        htmlAttributes                                                  // HTML attributes to apply to hyperlink
+        ).ToHtmlString();
+        //突出显示选中页
+        if ((bool)ViewData["Selected"])
+        {
+            linkMarkup = "<li class=\"active\">" + linkMarkup + "</li>";
+        }
+        else
+        {
+            linkMarkup = "<li>" + linkMarkup + "</li>";
+        }
+        razorWriter.Write(linkMarkup);
+    }
+}

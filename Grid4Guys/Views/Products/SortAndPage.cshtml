@@ -1,0 +1,44 @@
+﻿@model Grid4Guys.Models.ProductGridModel
+@{
+    ViewBag.Title = "SortAndPage";
+}
+<h2>SortAndPage</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    Your are viewing page @Model.PageIndex of @Model.TotalPageCount
+</p>
+<table class="table">
+    <tr>
+        <th>@Html.Partial("_SmartLink", Model, new ViewDataDictionary { { "ColumnName", "ProductName" }, { "DisplayName", "Product" } })</th>
+        <th>@Html.Partial("_SmartLink", Model, new ViewDataDictionary { { "ColumnName", "Categories.CategoryName" }, { "DisplayName", "Category" } })</th>
+        <th>@Html.Partial("_SmartLink", Model, new ViewDataDictionary { { "ColumnName", "QuantityPerUnit" }, { "DisplayName", "Qty/Unit" } })</th>
+        <th>@Html.Partial("_SmartLink", Model, new ViewDataDictionary { { "ColumnName", "UnitPrice" }, { "DisplayName", "Price" } })</th>
+        <th>@Html.Partial("_SmartLink", Model, new ViewDataDictionary { { "ColumnName", "Discontinued" }, { "DisplayName", "Discontinued" } })</th>
+    </tr>
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Categories.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Discontinued)
+            </td>
+        </tr>
+    }
+</table>
+
+<ul class="pagination">
+    @Html.Partial("_Pager", Model)
+</ul>

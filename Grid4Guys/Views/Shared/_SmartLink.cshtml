@@ -1,0 +1,56 @@
+﻿@model Grid4Guys.Models.ProductGridModel
+@using Grid4Guys.Helper
+<style type="text/css">
+    /* Sorting UI */
+    a.sortAsc {
+        /*padding-right: 16px;
+        background-image: url(arrow_up.png);
+        background-position: right;
+        background-repeat: no-repeat;
+        background-color:green;*/
+    }
+    a.sortDesc {
+        /*padding-right: 16px;
+        background-image: url(arrow_down.png);
+        background-position: right;
+        background-repeat: no-repeat;
+        background-color:red;*/
+    }
+</style>
+@{
+    //判断某个列是否要升序还是降序排列.
+    //只有当要排序的列(由Model.SortBy产生)和数据库中的列名相同(由ViewDate[“ColumnName”]产生)时，
+    //并且当前的排序为升序(Model.SortAscending)时，其值才为True。
+    var isDescending = string.CompareOrdinal(Model.SortBy, ViewData["ColumnName"].ToString()) == 0 && Model.SortAscending;
+    //用RouteValueDictionary字典的形式，分别向sortBy和ascending参数传入值
+    var routData = new RouteValueDictionary{
+        {"sortBy",ViewData["ColumnName"].ToString()}, //ViewData["ColumnName"]是从View视图的ViewDataDictionary传来的
+        {"ascending",!isDescending}
+    };
+    //一个 扩展，加入url中的参数
+    // Add querystring parameters to the route collection
+    routData.AddQueryStringParameters();
+    <!--CSS -->
+    var htmlAttributes = new Dictionary<string, object>();
+    if (string.CompareOrdinal(Model.SortBy, ViewData["ColumnName"].ToString()) == 0)
+    {
+        if (Model.SortAscending)
+        {
+            //htmlAttributes.Add("class", "sortAsc");
+            //htmlAttributes.Add("class", "glyphicon glyphicon-arrow-up");
+            htmlAttributes.Add("class", "glyphicon glyphicon-chevron-up");
+        }
+        else
+        {
+            //htmlAttributes.Add("class", "sortDesc");
+            htmlAttributes.Add("class", "glyphicon glyphicon-chevron-down");
+        }
+    }
+}
+@Html.ActionLink(
+    ViewData["DisplayName"].ToString(),//要显示的文字超链接的标题。ViewData["DisplayName"]是从View视图的ViewDataDictionary传来的。
+    Html.ViewContext.RouteData.Values["action"].ToString(),     //action
+    Html.ViewContext.RouteData.Values["controller"].ToString(), //Controller
+    routData,                                                   //路由的数据
+    htmlAttributes                                              //生成链接的HTML的CSS样式
+)
