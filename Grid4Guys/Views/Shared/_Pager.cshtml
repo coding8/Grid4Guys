@@ -1,5 +1,18 @@
 ﻿@model Grid4Guys.Models.ProductGridModel
 @{
+    //是哪个Controller传来的。根据需要引用不同model
+    //var currentController = ViewContext.RouteData.Values["controller"];
+    //if (currentController =="VA05")
+    //{
+    //    @model Order.ViewModels.VA05ViewModel
+    //}
+    //第一页
+    Html.RenderPartial("_PagerLink", Model, new ViewDataDictionary {
+        { "Text", "<<<" },
+        { "PageIndex",1},
+        { "Selected", false },
+        { "Inactive", Model.PageIndex == 1 }
+    });
     // 上一页
     Html.RenderPartial("_PagerLink", Model, new ViewDataDictionary {
         { "Text", "<<" },
@@ -27,8 +40,12 @@
         { "Selected", false },
         { "Inactive", Model.PageIndex == Model.TotalPageCount }
     });
-    
-    //TODO:第一页、最后一页
-    //TODO:当前记录数和总记录数
+    //最后一页
+    Html.RenderPartial("_PagerLink", Model, new ViewDataDictionary {
+        { "Text", " >>>" },
+        { "PageIndex", Model.TotalPageCount },
+        { "Selected", false },
+        { "Inactive", Model.PageIndex == Model.TotalPageCount }
+    });
 }
 <!--http://www.4guysfromrolla.com/articles/121510-1.aspx-->
