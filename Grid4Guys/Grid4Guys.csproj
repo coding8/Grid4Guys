@@ -268,6 +268,7 @@
     <Content Include="Views\Products\Filterable.cshtml" />
     <Content Include="Views\Products\SortAndPage.cshtml" />
     <Content Include="Views\Products\SortPageAndFilter.cshtml" />
+    <Content Include="Views\Shared\_PagerRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

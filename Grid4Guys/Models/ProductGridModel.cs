@@ -37,7 +37,8 @@ namespace Grid4Guys.Models
         public int TotalPageCount {
             get
             {
-                return Math.Max(this.TotalRecordCount / this.PageSize, 1);
+                //return Math.Max(this.TotalRecordCount / this.PageSize, 1);
+                return (int)Math.Ceiling((double)this.TotalRecordCount / this.PageSize);
             }
         }
 
